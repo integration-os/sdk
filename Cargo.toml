@@ -1,0 +1,21 @@
+[package]
+name = "rust-utils-napi"
+version = "1.0.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+anyhow = "1.0.79"
+integrationos-domain = { version = "0.0.5", registry = "CLOUDSMITH" }
+# Default enable napi4 feature, see https://nodejs.org/api/n-api.html#node-api-version-matrix
+napi = { version = "2.14", default-features = false, features = [
+    "napi4",
+    "anyhow",
+] }
+napi-derive = "2.14"
+rand = "0.8.5"
+
+[build-dependencies]
+napi-build = "2.0.1"
