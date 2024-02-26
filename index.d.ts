@@ -13,12 +13,23 @@ export interface AccessKeyData {
   timestampPath?: string
   parentAccessKey?: string
 }
-export interface AccessKey {
-  environment: string
-  eventType: string
-  version: number
-  data: AccessKeyData
+export interface Options {
+  serverUrl: string
 }
-export function encodeAccessKey(accessKey: AccessKey, password: string): string
-export function decodeAccessKey(accessKey: string, password: string): AccessKey
-export function generateId(prefix: string): string
+export interface GetOptions {
+  id: string
+}
+export class IntegrationOS {
+  constructor(accessKey: string, options?: Options | undefined | null)
+  customers(connectionKey: string): CustomerApi
+}
+export class Customer {
+  id: string
+  name: string
+  age: number
+}
+export class CustomerApi {
+  constructor()
+  get(options: GetOptions): Promise<Response<Customer>>
+  list(): Promise<Response<Array<Customer>>>
+}

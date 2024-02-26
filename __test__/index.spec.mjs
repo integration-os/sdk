@@ -1,90 +1,20 @@
 import test from 'ava'
 
-import { encodeAccessKey, decodeAccessKey, generateId } from '../index.js'
-
-test('round trip access key encode/decode', (t) => {
-  const accessKeyData = {
-    id: "foo",
-    namespace: "bar",
-    eventType: "baz",
-    group: "qux",
-    eventPath: "quux",
-    eventObjectIdPath: "corge",
-    timestampPath: "grault",
-    parentAccessKey: "garply",
-  }
-  const accessKey = {
-    environment: "test",
-    eventType: "id",
-    version: 1,
-    data: accessKeyData,
-  }
-
-  const password = "32KFFT_i4UpkJmyPwY2TGzgHpxfXs7zS"
-  const encoded = encodeAccessKey(accessKey, password)
-
-  const decoded = decodeAccessKey(encoded, password)
-  t.deepEqual(decoded, accessKey)
-})
-
-const checkPasswordLengthError = (t, accessKey, password) => {
-  const error = new Error(`Password must be 32 characters in length. Given password is ${password.length} characters long`)
-  error.code = 'GenericFailure'
-
-  let err = t.throws(() => {
-    encodeAccessKey(accessKey, password)
-  }, { instanceOf: Error });
-  t.deepEqual(err, error)
-
-  err = t.throws(() => {
-    decodeAccessKey('foo', password)
-  }, { instanceOf: Error });
-  t.deepEqual(err, error)
-}
-
-test('incorrect length password throws error', t => {
-  const accessKeyData = {
-    id: "foo",
-    namespace: "bar",
-    eventType: "baz",
-    group: "qux",
-    eventPath: "quux",
-    eventObjectIdPath: "corge",
-    timestampPath: "grault",
-    parentAccessKey: "garply",
-  }
-  const accessKey = {
-    environment: "test",
-    eventType: "id",
-    version: 1,
-    data: accessKeyData,
-  }
+import { IntegrationOS } from '../index.js'
 
 
-  let password = "32KFFT_i4UpkJmyPwY2TGzgHpxfXs7zSS"
-  checkPasswordLengthError(t, accessKey, password)
+test('fetch customer', async (t) => {
 
-  password = "32KFFT_i4UpkJmyPwY2TGzgHpxfXs7z"
-  checkPasswordLengthError(t, accessKey, password)
-})
+  const integrate = new IntegrationOS("sk_test_1_5wOEHNTqN8h6R7ErKHg_p9OPK1JE9AHPO3LrSUcmmIC-uZnKv1Z7ijPE2YrsURTS-830GyV_vQQhZeHG_Gc6Vd9A5SsJGg4Es5RqjjUoMQsDw8uWobpbCtBoAVsic08BFG6kf557lrytTGIo7563ikQfUqUfE2aO_ILg5tbYyZYZBMHd46GRTRwfa0_PhjhCFCpXnPE", {
+    serverUrl: "https://development-api.integrationos.com/v1/unified"
+  });
 
-test('can generate an id with proper prefix', t => {
-  let prefix = 'evt';
+  const response = await integrate.customers("test::shopify::andrew-test-0d1866cc98").list();
 
-  let id = generateId(prefix)
-  let splitId = id.split('::')
-  t.deepEqual(splitId.length, 3)
-  t.deepEqual(splitId[0], prefix)
-})
+  console.log(response);
 
-test('invalid prefix for generate id throws error', t => {
-  let invalidPrefix = 'foo';
+  const getResponse = await integrate.customers("test::shopify::andrew-test-0d1866cc98").get("7497524773048");
 
-  const error = new Error(`Invalid id prefix: ${invalidPrefix}`)
-  error.code = 'GenericFailure'
+  console.log(getResponse);
 
-  let err = t.throws(() => {
-    generateId(invalidPrefix)
-  }, { instanceOf: Error });
-  t.deepEqual(err, error)
 })
