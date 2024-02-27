@@ -1,6 +1,6 @@
 {
   "name": "@integrationos/poc-sdk",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "index.js",
   "types": "index.d.ts",
   "napi": {
@@ -34,8 +34,8 @@
   },
   "packageManager": "yarn@3.5.1",
   "optionalDependencies": {
-    "@integrationos/rust-utils-darwin-arm64": "0.1.0",
-    "@integrationos/rust-utils-darwin-x64": "0.1.0",
-    "@integrationos/rust-utils-linux-x64-gnu": "0.1.0"
+    "@integrationos/rust-utils-darwin-arm64": "0.2.0",
+    "@integrationos/rust-utils-darwin-x64": "0.2.0",
+    "@integrationos/rust-utils-linux-x64-gnu": "0.2.0"
   }
 }

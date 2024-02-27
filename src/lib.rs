@@ -4,11 +4,26 @@ use std::sync::Arc;
 
 use anyhow::anyhow;
 use integrationos_domain::encrypted_access_key::EncryptedAccessKey;
-use serde::{Deserialize, Serialize};
+use reqwest::RequestBuilder;
+use serde::Deserialize;
 use url::{ParseError, Url};
 
 #[macro_use]
 extern crate napi_derive;
+
+mod options;
+mod responses;
+mod unified_api;
+use options::*;
+use responses::*;
+use unified_api::*;
+
+const DEFAULT_URL: &str = "https://api.integrationos.com/v1/unified";
+const PASSTHROUGH_HEADER: &str = "x-integrationos-enable-passthrough";
+const SECRET_HEADER: &str = "x-integrationos-secret";
+const CONNECTION_HEADER: &str = "x-integrationos-connection-key";
+const CUSTOM_HEADER: &str = "x-integrationos-passthrough";
+const CUSTOM_QUERY: &str = "integrationOSPassthrough";
 
 #[derive(Debug, Clone)]
 struct Client {
@@ -22,23 +37,19 @@ struct IntegrationOS {
   client: Arc<Client>,
 }
 
-#[napi(object)]
-#[derive(Clone)]
-struct Options {
-  pub server_url: String,
-}
-
 #[napi]
 impl IntegrationOS {
   #[napi(constructor)]
-  pub fn new(access_key: String, options: Option<Options>) -> napi::Result<Self> {
-    let access_key = EncryptedAccessKey::parse(&access_key)?.to_static();
+  pub fn new(access_key: String, options: Option<IntegrationOSOptions>) -> napi::Result<Self> {
+    let access_key = EncryptedAccessKey::parse(&access_key)
+      .map_err(|e| anyhow!(e))?
+      .to_static();
 
     let url = Url::parse(
       options
         .as_ref()
         .map(|o| o.server_url.as_str())
-        .unwrap_or("https://api.integrationos.com/v1/unified"),
+        .unwrap_or(DEFAULT_URL),
     )
     .map_err(|e: ParseError| anyhow!(e))?;
 
@@ -53,85 +64,61 @@ impl IntegrationOS {
     })
   }
 
-  #[napi]
-  pub fn customers(&self, connection_key: String) -> CustomerApi {
-    CustomerApi {
-      client: self.client.clone(),
+  #[napi(ts_return_type = "UnifiedApi<Customer>")]
+  pub fn customers(&self, connection_key: String) -> UnifiedApi {
+    UnifiedApi::new(
+      self.client.clone(),
       connection_key,
-      model_name: "customers",
-    }
-  }
-}
-
-#[napi]
-#[derive(Debug, Clone, Serialize, Deserialize)]
-struct Customer {
-  pub id: String,
-  pub name: String,
-  pub age: u32,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-struct Response<T> {
-  pub unified: T,
-  pub meta: serde_json::Value,
-}
-
-#[napi]
-struct CustomerApi {
-  client: Arc<Client>,
-  connection_key: String,
-  model_name: &'static str,
-}
-
-#[napi(object)]
-struct GetOptions {
-  pub id: String,
-}
-
-#[napi]
-impl CustomerApi {
-  #[napi(constructor)]
-  pub fn new() -> napi::Result<Self> {
-    unimplemented!()
-  }
-
-  #[napi(ts_return_type = "Promise<Response<Customer>>")]
-  pub async fn get(&self, options: GetOptions) -> napi::Result<serde_json::Value> {
-    Ok(
-      self
-        .client
-        .client
-        .get(format!(
-          "{}/{}/{}",
-          self.client.url, self.model_name, options.id
-        ))
-        .header("x-integrationos-secret", self.client.access_key.to_string())
-        .header("x-integrationos-connection-key", &self.connection_key)
-        .send()
-        .await
-        .map_err(|e| anyhow!(e))?
-        .json()
-        .await
-        .map_err(|e| anyhow!(e))?,
+      Url::parse(&format!("{}/customers", self.client.url)).unwrap(),
     )
   }
+}
 
-  #[napi(ts_return_type = "Promise<Response<Array<Customer>>>")]
-  pub async fn list(&self) -> napi::Result<serde_json::Value> {
+impl Client {
+  async fn send<T: for<'a> Deserialize<'a>>(
+    &self,
+    mut builder: RequestBuilder,
+    key: &str,
+    options: Option<UnifiedOptions>,
+  ) -> anyhow::Result<T> {
+    if let Some(mut options) = options {
+      if options.response_passthrough.is_some_and(|p| p) {
+        println!("**********************88Hello!(");
+        builder = builder.header(PASSTHROUGH_HEADER, "true");
+      }
+
+      if let Some(headers) = options.passthrough_headers.take() {
+        builder = builder.header(
+          CUSTOM_HEADER,
+          headers
+            .into_iter()
+            .map(|(a, b)| format!("{a}={b}"))
+            .collect::<Vec<_>>()
+            .join(";"),
+        );
+      }
+
+      if let Some(params) = options.passthrough_headers {
+        builder = builder.query(&[(
+          CUSTOM_QUERY,
+          params
+            .into_iter()
+            .map(|(a, b)| format!("{a}={b}"))
+            .collect::<Vec<_>>()
+            .join("&"),
+        )]);
+      }
+    }
+
     Ok(
-      self
-        .client
-        .client
-        .get(format!("{}/{}", self.client.url, self.model_name))
-        .header("x-integrationos-secret", self.client.access_key.to_string())
-        .header("x-integrationos-connection-key", &self.connection_key)
+      builder
+        .header(SECRET_HEADER, self.access_key.to_string())
+        .header(CONNECTION_HEADER, key)
         .send()
         .await
         .map_err(|e| anyhow!(e))?
         .json()
-        .await
-        .map_err(|e| anyhow!(e))?,
+        .await?,
     )
   }
 }

@@ -252,8 +252,9 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { IntegrationOS, Customer, CustomerApi } = nativeBinding
+const { Response, ListResponse, UnifiedApi, IntegrationOS } = nativeBinding
 
+module.exports.Response = Response
+module.exports.ListResponse = ListResponse
+module.exports.UnifiedApi = UnifiedApi
 module.exports.IntegrationOS = IntegrationOS
-module.exports.Customer = Customer
-module.exports.CustomerApi = CustomerApi

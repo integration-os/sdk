@@ -9,12 +9,27 @@ test('fetch customer', async (t) => {
     serverUrl: "https://development-api.integrationos.com/v1/unified"
   });
 
-  const response = await integrate.customers("test::shopify::andrew-test-0d1866cc98").list();
+  let response = await integrate.customers("test::shopify::andrew-test-0d1866cc98").list();
 
-  console.log(response);
+  console.log(response.unified);
 
-  const getResponse = await integrate.customers("test::shopify::andrew-test-0d1866cc98").get("7497524773048");
+  response = await integrate.customers("test::shopify::andrew-test-0d1866cc98").get("7497524773048");
 
-  console.log(getResponse);
+  console.log(response.meta);
 
+  response = await integrate.customers("test::shopify::andrew-test-0d1866cc98").update("7497524773048", { firstName: "hey"}, { responsePassthrough: true });
+
+  console.log("Name: ", response.passthrough);
+
+  response = await integrate.customers("test::shopify::andrew-test-0d1866cc98").count();
+
+  console.log("Count: ", response.unified);
+
+  response = await integrate.customers("test::shopify::andrew-test-0d1866cc98").list({}, { responsePassthrough: true });
+
+  console.log("Passthrough: ", response.passthrough);
+
+  response = await integrate.customers("test::shopify::andrew-test-0d1866cc98").delete("7497524773048");
+
+  console.log("DELETED: ", response);
 })

@@ -1,6 +1,6 @@
-# Rust utils NAPI Building
+# Rust SDK NAPI Building
 
-This document describes the process for building and publishing the [`@integrationos/utils`](https://www.npmjs.com/package/@integrationos/utils) and related npm packages. Whenever [`common`](../common) packages are modified in this repo, a new `@integrationos/utils` version should be created and published.
+This document describes the process for building and publishing the [`@integrationos/node`](https://www.npmjs.com/package/@integrationos/node) and related npm packages.
 
 ## Dependencies
 
