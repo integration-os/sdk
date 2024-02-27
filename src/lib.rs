@@ -2,7 +2,7 @@
 
 use std::sync::Arc;
 
-use anyhow::anyhow;
+use anyhow::{anyhow, bail};
 use integrationos_domain::encrypted_access_key::EncryptedAccessKey;
 use reqwest::RequestBuilder;
 use serde::Deserialize;
@@ -48,7 +48,14 @@ impl IntegrationOS {
     let url = Url::parse(
       options
         .as_ref()
-        .map(|o| o.server_url.as_str())
+        .map(|o| {
+          let url = o.server_url.as_str();
+          if url.ends_with("/") {
+            &url[..url.len() - 1]
+          } else {
+            url
+          }
+        })
         .unwrap_or(DEFAULT_URL),
     )
     .map_err(|e: ParseError| anyhow!(e))?;
@@ -64,7 +71,7 @@ impl IntegrationOS {
     })
   }
 
-  #[napi(ts_return_type = "UnifiedApi<Customer>")]
+  #[napi(ts_return_type = "UnifiedApi<Customers>")]
   pub fn customers(&self, connection_key: String) -> UnifiedApi {
     UnifiedApi::new(
       self.client.clone(),
@@ -83,7 +90,6 @@ impl Client {
   ) -> anyhow::Result<T> {
     if let Some(mut options) = options {
       if options.response_passthrough.is_some_and(|p| p) {
-        println!("**********************88Hello!(");
         builder = builder.header(PASSTHROUGH_HEADER, "true");
       }
 
@@ -110,15 +116,24 @@ impl Client {
       }
     }
 
-    Ok(
-      builder
-        .header(SECRET_HEADER, self.access_key.to_string())
-        .header(CONNECTION_HEADER, key)
-        .send()
-        .await
-        .map_err(|e| anyhow!(e))?
-        .json()
-        .await?,
-    )
+    let res = builder
+      .header(SECRET_HEADER, self.access_key.to_string())
+      .header(CONNECTION_HEADER, key)
+      .send()
+      .await
+      .map_err(|e| anyhow!(e))?;
+
+    let status = res.status();
+    if !status.is_success() {
+      match res.json::<serde_json::Value>().await {
+        Ok(json) => bail!(json),
+        Err(_) => bail!("{{\"error\":\"Invalid response\"}}"),
+      }
+    } else {
+      match res.json().await {
+        Ok(json) => return Ok(json),
+        Err(_) => bail!("{{\"error\":\"Invalid response\"}}"),
+      }
+    }
   }
 }
