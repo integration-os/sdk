@@ -71,7 +71,7 @@ export class IntegrationOS {
     accessKey: string,
     options?: IntegrationOsOptions | undefined | null
   );
-  customers(connectionKey: string): UnifiedApi<Customer>;
+  customers(connectionKey: string): UnifiedApi<Customers>;
 }
 
 /// Common models
