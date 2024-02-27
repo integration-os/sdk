@@ -1,6 +1,6 @@
 {
   "name": "@integrationos/poc-sdk",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "main": "index.js",
   "types": "index.d.ts",
   "napi": {
@@ -34,8 +34,8 @@
   },
   "packageManager": "yarn@3.5.1",
   "optionalDependencies": {
-    "@integrationos/poc-sdk-darwin-arm64": "0.2.1",
-    "@integrationos/poc-sdk-darwin-x64": "0.2.1",
-    "@integrationos/poc-sdk-linux-x64-gnu": "0.2.1"
+    "@integrationos/poc-sdk-darwin-arm64": "0.2.2",
+    "@integrationos/poc-sdk-darwin-x64": "0.2.2",
+    "@integrationos/poc-sdk-linux-x64-gnu": "0.2.2"
   }
 }
