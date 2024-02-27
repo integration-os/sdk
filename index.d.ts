@@ -29,12 +29,12 @@ export interface ListFilter {
   limit?: number;
   cursor?: string;
 }
-export class Response<Type> {
+export interface Response<Type> {
   unified?: Type;
   passthrough?: any;
   meta: object;
 }
-export class ListResponse<Type> {
+export interface ListResponse<Type> {
   unified: Array<Type>;
   passthrough?: any;
   pagination: Pagination;

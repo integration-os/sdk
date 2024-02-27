@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-#[napi(js_name = "Response<Type>")]
+#[napi(object, js_name = "Response<Type>")]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub(crate) struct Response {
   #[napi(ts_type = "Type")]
@@ -21,7 +21,7 @@ pub(crate) struct Pagination {
   pub page_size: u32,
 }
 
-#[napi(js_name = "ListResponse<Type>")]
+#[napi(object, js_name = "ListResponse<Type>")]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub(crate) struct ListResponse {
   #[napi(ts_type = "Array<Type>")]

@@ -1,3 +1,3 @@
-# `@integrationos/rust-utils-darwin-x64`
+# `@integrationos/poc-sdk-darwin-x64`
 
-This is the **x86_64-apple-darwin** binary for `@integrationos/rust-utils`
+This is the **x86_64-apple-darwin** binary for `@integrationos/poc-sdk`
