@@ -56,12 +56,7 @@ impl UnifiedApi {
     options: Option<UnifiedOptions>,
   ) -> napi::Result<Response> {
     let builder = self.client.client.post(self.url.clone()).json(&object);
-    Ok(
-      self
-        .client
-        .send(builder, &self.connection_key, options)
-        .await?,
-    )
+    Ok(self.send(builder, &self.connection_key, options).await?)
   }
 
   #[napi(ts_return_type = "Promise<ListResponse<Type>>")]
@@ -71,23 +66,13 @@ impl UnifiedApi {
     options: Option<UnifiedOptions>,
   ) -> napi::Result<ListResponse> {
     let builder = self.client.client.get(self.url.clone()).query(&filter);
-    Ok(
-      self
-        .client
-        .send(builder, &self.connection_key, options)
-        .await?,
-    )
+    Ok(self.send(builder, &self.connection_key, options).await?)
   }
 
   #[napi(ts_return_type = "Promise<Response<Type>>")]
   pub async fn get(&self, id: String, options: Option<UnifiedOptions>) -> napi::Result<Response> {
     let builder = self.client.client.get(format!("{}/{id}", self.url));
-    Ok(
-      self
-        .client
-        .send(builder, &self.connection_key, options)
-        .await?,
-    )
+    Ok(self.send(builder, &self.connection_key, options).await?)
   }
 
   #[napi(ts_return_type = "Promise<Response<Type>>")]
@@ -102,23 +87,13 @@ impl UnifiedApi {
       .client
       .patch(format!("{}/{id}", self.url))
       .json(&object);
-    Ok(
-      self
-        .client
-        .send(builder, &self.connection_key, options)
-        .await?,
-    )
+    Ok(self.send(builder, &self.connection_key, options).await?)
   }
 
   #[napi(ts_return_type = "Promise<Response<Count>>")]
   pub async fn count(&self, options: Option<UnifiedOptions>) -> napi::Result<Response> {
     let builder = self.client.client.get(format!("{}/count", self.url));
-    Ok(
-      self
-        .client
-        .send(builder, &self.connection_key, options)
-        .await?,
-    )
+    Ok(self.send(builder, &self.connection_key, options).await?)
   }
 
   #[napi(ts_return_type = "Promise<Response<Type>>")]
@@ -133,11 +108,61 @@ impl UnifiedApi {
       .client
       .delete(format!("{}/{id}", self.url))
       .json(&delete_options);
-    Ok(
-      self
-        .client
-        .send(builder, &self.connection_key, options)
-        .await?,
-    )
+    Ok(self.send(builder, &self.connection_key, options).await?)
+  }
+
+  async fn send<T: for<'a> Deserialize<'a>>(
+    &self,
+    mut builder: RequestBuilder,
+    key: &str,
+    options: Option<UnifiedOptions>,
+  ) -> anyhow::Result<T> {
+    if let Some(mut options) = options {
+      if options.response_passthrough.is_some_and(|p| p) {
+        builder = builder.header(PASSTHROUGH_HEADER, "true");
+      }
+
+      if let Some(headers) = options.passthrough_headers.take() {
+        builder = builder.header(
+          CUSTOM_HEADER,
+          headers
+            .into_iter()
+            .map(|(a, b)| format!("{a}={b}"))
+            .collect::<Vec<_>>()
+            .join(";"),
+        );
+      }
+
+      if let Some(params) = options.passthrough_headers {
+        builder = builder.query(&[(
+          CUSTOM_QUERY,
+          params
+            .into_iter()
+            .map(|(a, b)| format!("{a}={b}"))
+            .collect::<Vec<_>>()
+            .join("&"),
+        )]);
+      }
+    }
+
+    let res = builder
+      .header(SECRET_HEADER, self.client.access_key.to_string())
+      .header(CONNECTION_HEADER, key)
+      .send()
+      .await
+      .map_err(|e| anyhow!(e))?;
+
+    let status = res.status();
+    if !status.is_success() {
+      match res.json::<serde_json::Value>().await {
+        Ok(json) => bail!(json),
+        Err(_) => bail!("{{\"error\":\"Invalid response\"}}"),
+      }
+    } else {
+      match res.json().await {
+        Ok(json) => return Ok(json),
+        Err(_) => bail!("{{\"error\":\"Invalid response\"}}"),
+      }
+    }
   }
 }

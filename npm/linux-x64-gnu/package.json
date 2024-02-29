@@ -1,6 +1,6 @@
 {
   "name": "@integrationos/poc-sdk-linux-x64-gnu",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "os": [
     "linux"
   ],

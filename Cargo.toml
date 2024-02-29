@@ -8,11 +8,12 @@ crate-type = ["cdylib"]
 
 [dependencies]
 anyhow = "1.0.79"
-integrationos-domain = { version = "8", registry = "CLOUDSMITH" }
+integrationos-domain = { version = "10", registry = "CLOUDSMITH" }
 # Default enable napi4 feature, see https://nodejs.org/api/n-api.html#node-api-version-matrix
 napi = { version = "2.15", default-features = false, features = [
     "anyhow",
     "async",
+    "chrono_date",
     "serde-json",
 ] }
 napi-derive = "2.15"
@@ -25,6 +26,13 @@ reqwest = { version = "0.11.24", default-features = false, features = [
 serde = { version = "1.0.197", features = ["derive"] }
 url = "2.5.0"
 serde_json = "1.0.114"
+chrono = "0.4.34"
 
 [build-dependencies]
+anyhow = "1.0.79"
+futures-util = "0.3.30"
+integrationos-domain = { version = "10", registry = "CLOUDSMITH" }
+mongodb = "2.8.1"
 napi-build = "2.0.1"
+regex = "1.10.3"
+tokio = { version = "1", features = ["fs", "macros", "rt"] }
