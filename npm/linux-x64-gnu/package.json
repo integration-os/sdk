@@ -19,6 +19,6 @@
     "glibc"
   ],
   "scripts": {
-    "postbuild": "sed -i'' -e 's/<Type>//g' index.js && sed -i'' -e '/^export type*/d' index.d.ts && rm *-e"
+    "postbuild": "sed -i'' -e 's/<Type>//g' index.js && sed -i'' -e '/^export type*/d' index.d.ts"
   }
 }
