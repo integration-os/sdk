@@ -37,7 +37,7 @@
     "postbuild:debug": "npm run postbuild",
     "postbuild:linux": "npm run postbuild && cd npm/linux-x64-gnu && npm run postbuild",
     "postbuild:mac": "npm run postbuild && cd npm/darwin-arm64 && npm run postbuild && cd ../darwin-x64 && npm run postbuild",
-    "postbuild": "sed 's/<Type>//g' -i index.js && sed '/^export type*/d' -i index.d.ts"
+    "postbuild": "sed -i'' -e 's/<Type>//g' index.js && sed -i'' -e '/^export type*/d' index.d.ts && rm *-e"
   },
   "packageManager": "yarn@3.5.1",
   "optionalDependencies": {
