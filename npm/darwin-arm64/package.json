@@ -1,18 +1,21 @@
 {
-  "name": "@integrationos/poc-sdk-darwin-arm64",
-  "version": "0.3.0",
+  "name": "@integrationos/node-darwin-arm64",
+  "version": "3.0.1",
   "os": [
     "darwin"
   ],
   "cpu": [
     "arm64"
   ],
-  "main": "poc-sdk.darwin-arm64.node",
+  "main": "node.darwin-arm64.node",
   "files": [
-    "poc-sdk.darwin-arm64.node"
+    "node.darwin-arm64.node"
   ],
   "license": "MIT",
   "engines": {
     "node": ">= 10"
+  },
+  "scripts": {
+    "postbuild": "sed 's/<Type>//g' -i index.js && sed '/^export type*/d' -i index.d.ts"
   }
 }

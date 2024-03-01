@@ -1,10 +1,10 @@
 {
-  "name": "@integrationos/poc-sdk",
-  "version": "0.3.0",
+  "name": "@integrationos/node",
+  "version": "3.0.1",
   "main": "index.js",
   "types": "index.d.ts",
   "napi": {
-    "name": "poc-sdk",
+    "name": "node",
     "triples": {
       "defaults": false,
       "additional": [
@@ -26,16 +26,21 @@
     "node": ">= 10"
   },
   "scripts": {
-    "build-all": "napi build --platform --release && napi build --target aarch64-apple-darwin --platform --release npm/darwin-arm64 && napi build --target x86_64-apple-darwin --platform --release npm/darwin-x64 && napi build --target x86_64-unknown-linux-gnu --platform --release npm/linux-x64-gnu",
-    "build": "napi build --platform --release",
-    "build:debug": "napi build --platform",
+    "build-all": "napi build --platform --release --cargo-cwd sdk && napi build --target aarch64-apple-darwin --platform --release --cargo-cwd sdk npm/darwin-arm64 && napi build --target x86_64-apple-darwin --platform --release --cargo-cwd sdk npm/darwin-x64 && napi build --target x86_64-unknown-linux-gnu --platform --release --cargo-cwd sdk npm/linux-x64-gnu",
+    "build:linux": "napi build --target x86_64-unknown-linux-gnu --platform --release --cargo-cwd sdk npm/linux-x64-gnu",
+    "build": "napi build --platform --release --cargo-cwd sdk",
+    "build:debug": "napi build --platform --cargo-cwd sdk",
     "test": "ava",
-    "version": "napi version"
+    "version": "napi version",
+    "postbuild-all": "npm run postbuild",
+    "postbuild:debug": "npm run postbuild",
+    "postbuild:linux": "npm run postbuild && cd npm/linux-x64-gnu && npm run postbuild",
+    "postbuild": "sed 's/<Type>//g' -i index.js && sed '/^export type*/d' -i index.d.ts"
   },
   "packageManager": "yarn@3.5.1",
   "optionalDependencies": {
-    "@integrationos/poc-sdk-darwin-arm64": "0.3.0",
-    "@integrationos/poc-sdk-darwin-x64": "0.3.0",
-    "@integrationos/poc-sdk-linux-x64-gnu": "0.3.0"
+    "@integrationos/node-darwin-arm64": "3.0.1",
+    "@integrationos/node-darwin-x64": "3.0.1",
+    "@integrationos/node-linux-x64-gnu": "3.0.1"
   }
 }

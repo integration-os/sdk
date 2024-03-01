@@ -1,15 +1,15 @@
 {
-  "name": "@integrationos/poc-sdk-linux-x64-gnu",
-  "version": "0.3.0",
+  "name": "@integrationos/node-linux-x64-gnu",
+  "version": "3.0.1",
   "os": [
     "linux"
   ],
   "cpu": [
     "x64"
   ],
-  "main": "poc-sdk.linux-x64-gnu.node",
+  "main": "node.linux-x64-gnu.node",
   "files": [
-    "poc-sdk.linux-x64-gnu.node"
+    "node.linux-x64-gnu.node"
   ],
   "license": "MIT",
   "engines": {
@@ -17,5 +17,8 @@
   },
   "libc": [
     "glibc"
-  ]
+  ],
+  "scripts": {
+    "postbuild": "sed 's/<Type>//g' -i index.js && sed '/^export type*/d' -i index.d.ts"
+  }
 }

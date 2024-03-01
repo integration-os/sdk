@@ -1,18 +1,21 @@
 {
-  "name": "@integrationos/poc-sdk-darwin-x64",
-  "version": "0.3.0",
+  "name": "@integrationos/node-darwin-x64",
+  "version": "3.0.1",
   "os": [
     "darwin"
   ],
   "cpu": [
     "x64"
   ],
-  "main": "poc-sdk.darwin-x64.node",
+  "main": "node.darwin-x64.node",
   "files": [
-    "poc-sdk.darwin-x64.node"
+    "node.darwin-x64.node"
   ],
   "license": "MIT",
   "engines": {
     "node": ">= 10"
+  },
+  "scripts": {
+    "postbuild": "sed 's/<Type>//g' -i index.js && sed '/^export type*/d' -i index.d.ts"
   }
 }
