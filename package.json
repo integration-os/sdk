@@ -46,5 +46,5 @@
     "postbuild:mac": "npm run postbuild && cd npm/darwin-arm64 && npm run postbuild && cd ../darwin-x64 && npm run postbuild && rm *-e",
     "postbuild": "sed -i'' -e 's/<Type>//g' index.js && sed -i'' -e '/^export type*/d' index.d.ts"
   },
-  "packageManager": "yarn@3.5.1"
+  "packageManager": "yarn@4.1.0"
 }
