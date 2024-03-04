@@ -4,7 +4,6 @@
 use std::sync::Arc;
 
 use anyhow::{anyhow, bail};
-use integrationos_domain::encrypted_access_key::EncryptedAccessKey;
 use reqwest::RequestBuilder;
 use serde::Deserialize;
 use url::{ParseError, Url};
@@ -30,7 +29,7 @@ const CUSTOM_QUERY: &str = "integrationOSPassthrough";
 
 #[derive(Debug, Clone)]
 struct Client {
-    access_key: EncryptedAccessKey<'static>,
+    access_key: String,
     url: Url,
     client: reqwest::Client,
 }
@@ -44,10 +43,6 @@ struct IntegrationOS {
 impl IntegrationOS {
     #[napi(constructor)]
     pub fn new(access_key: String, options: Option<IntegrationOSOptions>) -> napi::Result<Self> {
-        let access_key = EncryptedAccessKey::parse(&access_key)
-            .map_err(|e| anyhow!(e))?
-            .to_static();
-
         let url = Url::parse(
             options
                 .as_ref()

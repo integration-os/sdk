@@ -10,7 +10,6 @@ crate-type = ["cdylib"]
 anyhow = "1.0.79"
 chrono = "0.4.34"
 http = "0.2"
-integrationos-domain = { version = "10", registry = "CLOUDSMITH" }
 macros = { path = "../macros" }
 napi = { version = "2.15", default-features = false, features = [
     "anyhow",

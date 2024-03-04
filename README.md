@@ -1,56 +1,37 @@
-# Rust SDK NAPI Building
+# IntegrationOS Node.js Library
 
-This document describes the process for building and publishing the [`@integrationos/node`](https://www.npmjs.com/package/@integrationos/node) and related npm packages.
+The IntegrationOS library for Node.js provides convenient access to the IntegrationOS API from applications written in server-side JavaScript.
 
-## Dependencies
+## Install
 
-You will need write access to the `@integrationos` npm organization.
+With npm:
 
-You will need to install the `zig` language
-
-```bash
-brew install zig
+```jsx
+npm i @integrationos/node
 ```
 
-You will need to install all 3 target architectures we support
+With yarn:
 
-```bash
-rustup target add x86_64-unknown-linux-gnu x86_64-apple-darwin aarch64-apple-darwin
+```jsx
+yarn add @integrationos/node
 ```
 
-You will need to install [`@napi-rs/cli`](https://napi.rs/docs/introduction/getting-started#install-cli)
+## Configuration
 
-```bash
-npm install -g @napi-rs/cli
+To use the library you must provide an API key and Connection key. Both are located in the IntegrationOS dashboard.
+
+```jsx
+import { IntegrationOS } from "@integrationOS/node";
+
+const integrate = new IntegrationOS("sk_live_1234");
+
+const response = await integrate
+  .customers("live::xero::acme-inc")
+  .get("cus_OT3CLnirqcpjvw");
+
+console.log(response);
 ```
 
-## Updating Version
+## Full Documentation
 
-In the [`package.json`](./package.json) file, update the version.
-
-## Building
-
-Build the three architectures
-
-```bash
-npm run build-all
-```
-
-## Publishing
-
-Do a dry-run to make sure everything is going to be published correctly. You must also go into each architecture module in `npm` and run the following command there as well.
-
-```bash
-npm publish --otp=<2FA_ONE_TIME_PASSWORD> --dry-run
-```
-
-Remove `--dry-run` to publish.
-
-## Tests
-
-Tests are in the [`__test__`](./__test__/) folder
-
-```bash
-npm install
-npm run test
-```
+Please refer to the official IntegrationOS [Documentation](https://docs.integrationos.com/docs/setup) and [API Reference](https://docs.integrationos.com/reference) for more information and Node.js usage examples.
