@@ -1,23 +1,16 @@
 {
   "name": "@integrationos/node",
-  "version": "3.0.2",
+  "version": "3.1.0",
   "main": "index.js",
   "types": "index.d.ts",
   "napi": {
     "name": "node",
     "triples": {
-      "defaults": true,
+      "defaults": false,
       "additional": [
-        "x86_64-unknown-linux-musl",
-        "aarch64-unknown-linux-gnu",
-        "i686-pc-windows-msvc",
-        "armv7-unknown-linux-gnueabihf",
         "aarch64-apple-darwin",
-        "aarch64-linux-android",
-        "x86_64-unknown-freebsd",
-        "aarch64-unknown-linux-musl",
-        "aarch64-pc-windows-msvc",
-        "armv7-linux-androideabi"
+        "x86_64-apple-darwin",
+        "x86_64-unknown-linux-gnu"
       ]
     }
   },
@@ -46,5 +39,10 @@
     "postbuild:mac": "npm run postbuild && cd npm/darwin-arm64 && npm run postbuild && cd ../darwin-x64 && npm run postbuild && rm *-e",
     "postbuild": "sed -i'' -e 's/<Type>//g' index.js && sed -i'' -e '/^export type*/d' index.d.ts"
   },
-  "packageManager": "yarn@4.1.0"
+  "packageManager": "yarn@4.1.0",
+  "optionalDependencies": {
+    "@integrationos/node-darwin-arm64": "3.1.0",
+    "@integrationos/node-darwin-x64": "3.1.0",
+    "@integrationos/node-linux-x64-gnu": "3.1.0"
+  }
 }

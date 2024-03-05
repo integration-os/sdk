@@ -159,9 +159,24 @@ impl UnifiedApi {
                 Err(_) => bail!("{{\"error\":\"Invalid response\"}}"),
             }
         } else {
+            let mut headers = serde_json::Map::new();
+            for (k, v) in res.headers() {
+                headers.insert(
+                    k.to_string(),
+                    http_serde_ext::header_value::serialize(v, serde_json::value::Serializer)
+                        .unwrap(),
+                );
+            }
+
             match res.json().await {
-                Ok(json) => return Ok(json),
-                Err(_) => bail!("{{\"error\":\"Invalid response\"}}"),
+                Ok(serde_json::Value::Object(mut map)) => {
+                    map.insert(
+                        RESPONSE_HEADERS_FIELD_NAME.to_string(),
+                        serde_json::Value::Object(headers),
+                    );
+                    return Ok(serde_json::from_value(serde_json::Value::Object(map)).unwrap());
+                }
+                _ => bail!("{{\"error\":\"Invalid response\"}}"),
             }
         }
     }

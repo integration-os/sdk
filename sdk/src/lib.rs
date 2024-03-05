@@ -26,6 +26,7 @@ const SECRET_HEADER: &str = "x-integrationos-secret";
 const CONNECTION_HEADER: &str = "x-integrationos-connection-key";
 const CUSTOM_HEADER: &str = "x-integrationos-passthrough";
 const CUSTOM_QUERY: &str = "integrationOSPassthrough";
+const RESPONSE_HEADERS_FIELD_NAME: &str = "headers";
 
 #[derive(Debug, Clone)]
 struct Client {

@@ -10,6 +10,7 @@ crate-type = ["cdylib"]
 anyhow = "1.0.79"
 chrono = "0.4.34"
 http = "0.2"
+http-serde-ext = "0.1"
 macros = { path = "../macros" }
 napi = { version = "2.15", default-features = false, features = [
     "anyhow",
