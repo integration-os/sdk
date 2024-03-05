@@ -1,0 +1,24 @@
+{
+  "name": "@integrationos/node-linux-arm64-gnu",
+  "version": "3.1.0",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "main": "node.linux-arm64-gnu.node",
+  "files": [
+    "node.linux-arm64-gnu.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  },
+  "libc": [
+    "glibc"
+  ],
+  "scripts": {
+    "postbuild": "sed -i'' -e 's/<Type>//g' index.js && sed -i'' -e '/^export type*/d' index.d.ts"
+  }
+}
