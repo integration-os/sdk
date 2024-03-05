@@ -40,9 +40,9 @@ struct IntegrationOS {
     client: Arc<Client>,
 }
 
-#[unified_api]
+// #[unified_api]
 impl IntegrationOS {
-    #[napi(constructor)]
+    // #[napi(constructor)]
     pub fn new(access_key: String, options: Option<IntegrationOSOptions>) -> napi::Result<Self> {
         let url = Url::parse(
             options
@@ -71,4 +71,4 @@ impl IntegrationOS {
     }
 }
 
-make_common_models!();
+// make_common_models!();
