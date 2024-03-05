@@ -2,18 +2,17 @@ extern crate proc_macro;
 
 use std::collections::HashSet;
 
-use anyhow::Result;
-use futures_util::StreamExt;
+use anyhow::{bail, Result};
 use integrationos_domain::{
     algebra::extension::StringExt,
     api_model_config::Lang,
     common_model::{CommonEnum, CommonModel, DataType},
     prefix::IdPrefix,
-    Id, Store,
+    Id,
 };
-use mongodb::{bson, Client};
 use proc_macro::TokenStream;
 use quote::quote;
+use serde::{Deserialize, Serialize};
 use syn::{parse_macro_input, ImplItem, ImplItemFn, ItemImpl};
 
 #[proc_macro]
@@ -22,18 +21,34 @@ pub fn make_common_models(_item: TokenStream) -> TokenStream {
     rt.block_on(async { get_common_models().await }).unwrap()
 }
 
-async fn get_common_models() -> Result<TokenStream> {
-    let client = Client::with_uri_str("mongodb://localhost:57394/?directConnection=true").await?;
-    let db = client.database("events-service");
+const ENDPOINT: &str = "https://development-api.integrationos.com/v1/public/e7262bf18c81bc1ff7f726e6d1a6da59f6e77dde0d63d9b60c041af57be8c197/";
+const LIMIT: u64 = 500;
 
-    let coll = db.collection::<CommonModel>(&Store::CommonModels.to_string());
-    let mut common_models = coll.find(None, None).await?;
+#[derive(Debug, Clone, Serialize, Deserialize)]
+struct ReadResponse<T> {
+    pub rows: Vec<T>,
+    pub total: u64,
+}
+
+async fn get_common_models() -> Result<TokenStream> {
+    let client = reqwest::Client::default();
 
     let mut enums = HashSet::new();
 
     let mut output = String::new();
 
-    while let Some(cm) = common_models.next().await.transpose()? {
+    let result: ReadResponse<CommonModel> = client
+        .get(&format!("{ENDPOINT}common-models?limit={LIMIT}"))
+        .send()
+        .await?
+        .json()
+        .await?;
+
+    if result.total > LIMIT {
+        bail!("Too many common-models, increase limit of {LIMIT}");
+    }
+
+    for cm in result.rows {
         enums.extend(
             cm.get_enum_fields()
                 .into_iter()
@@ -61,9 +76,6 @@ async fn get_common_models() -> Result<TokenStream> {
         output.push_str(rust);
     }
 
-    let coll = db.collection::<CommonEnum>(&Store::CommonEnums.to_string());
-    let mut common_enums = coll.find(None, None).await?;
-
     for ce in enums {
         let napi_attr = format!(
             "#[napi(string_enum, js_name = {})]",
@@ -75,7 +87,18 @@ async fn get_common_models() -> Result<TokenStream> {
         output.push_str(&rust);
     }
 
-    while let Some(ce) = common_enums.next().await.transpose()? {
+    let result: ReadResponse<CommonEnum> = client
+        .get(&format!("{ENDPOINT}common-enums?limit={LIMIT}"))
+        .send()
+        .await?
+        .json()
+        .await?;
+
+    if result.total > LIMIT {
+        bail!("Too many common-enums, increase limit of {LIMIT}");
+    }
+
+    for ce in result.rows {
         let napi_attr = format!(
             "#[napi(string_enum, js_name = {})]",
             ce.name.replace("::", "")
@@ -105,13 +128,24 @@ pub fn unified_api(_attr: TokenStream, item: TokenStream) -> TokenStream {
 }
 
 async fn get_primary_models(impl_block: &mut ItemImpl) -> Result<()> {
-    let client = Client::with_uri_str("mongodb://localhost:57394/?directConnection=true").await?;
-    let db = client.database("events-service");
+    let client = reqwest::Client::default();
 
-    let coll = db.collection::<CommonModel>(&Store::CommonModels.to_string());
-    let mut common_models = coll.find(bson::doc! { "primary": true }, None).await?;
+    let result: ReadResponse<CommonModel> = client
+        .get(&format!("{ENDPOINT}common-models?limit={LIMIT}"))
+        .send()
+        .await?
+        .json()
+        .await?;
 
-    while let Some(mut cm) = common_models.next().await.transpose()? {
+    if result.total > LIMIT {
+        bail!("Too many common-models, increase limit of {LIMIT}");
+    }
+
+    for mut cm in result.rows {
+        if !cm.primary {
+            continue;
+        }
+
         cm.name = cm.name.replace("::", "");
         let name = &cm.name;
         let lowercase_name = cm.name.to_lowercase();

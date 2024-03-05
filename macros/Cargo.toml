@@ -10,9 +10,13 @@ proc-macro = true
 anyhow = "1.0"
 futures-util = "0.3"
 integrationos-domain = { version = "10", registry = "CLOUDSMITH" }
-mongodb = "2.8"
 proc-macro2 = "1.0"
 quote = "1.0"
 regex = "1.10"
+reqwest = { version = "0.11.24", default-features = false, features = [
+    "json",
+    "rustls-tls",
+] }
+serde = { version = "1.0.197", features = ["derive"] }
 syn = "2.0"
 tokio = { version = "1", features = ["macros", "rt"] }
