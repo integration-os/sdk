@@ -38,7 +38,8 @@
     "postbuild:debug": "npm run postbuild",
     "postbuild:linux": "npm run postbuild && cd npm/linux-x64-gnu && npm run postbuild",
     "postbuild:mac": "npm run postbuild && cd npm/darwin-arm64 && npm run postbuild && cd ../darwin-x64 && npm run postbuild && rm *-e",
-    "postbuild": "sed -i'' -e 's/<Type>//g' index.js && sed -i'' -e '/^export type*/d' index.d.ts"
+    "postbuild": "sed -i'' -e 's/<Type>//g' index.js && sed -i'' -e '/^export type*/d' index.d.ts",
+    "prepublishOnly": "napi prepublish -t npm"
   },
   "packageManager": "yarn@4.1.0"
 }
