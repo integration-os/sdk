@@ -117,12 +117,12 @@ impl UnifiedApi {
         key: &str,
         options: Option<UnifiedOptions>,
     ) -> anyhow::Result<T> {
-        if let Some(mut options) = options {
+        if let Some(options) = options {
             if options.response_passthrough.is_some_and(|p| p) {
                 builder = builder.header(PASSTHROUGH_HEADER, "true");
             }
 
-            if let Some(headers) = options.passthrough_headers.take() {
+            if let Some(headers) = options.passthrough_headers {
                 builder = builder.header(
                     CUSTOM_HEADER,
                     headers
@@ -133,7 +133,7 @@ impl UnifiedApi {
                 );
             }
 
-            if let Some(params) = options.passthrough_headers {
+            if let Some(params) = options.passthrough_query {
                 builder = builder.query(&[(
                     CUSTOM_QUERY,
                     params
