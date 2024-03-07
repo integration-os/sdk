@@ -13,7 +13,8 @@ pub(crate) struct UnifiedApi {
 }
 
 #[napi(object)]
-#[derive(Serialize)]
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub(crate) struct ListFilter {
     pub created_after: Option<String>,
     pub created_before: Option<String>,
