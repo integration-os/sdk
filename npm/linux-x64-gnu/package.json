@@ -1,6 +1,6 @@
 {
   "name": "@integrationos/node-linux-x64-gnu",
-  "version": "3.5.1",
+  "version": "3.6.0",
   "os": [
     "linux"
   ],
