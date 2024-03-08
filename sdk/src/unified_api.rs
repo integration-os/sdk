@@ -1,6 +1,8 @@
 use std::sync::Arc;
 
+use http::StatusCode;
 use serde::Serialize;
+use serde_json::json;
 use url::Url;
 
 use crate::*;
@@ -57,7 +59,9 @@ impl UnifiedApi {
         options: Option<UnifiedOptions>,
     ) -> napi::Result<Response> {
         let builder = self.client.client.post(self.url.clone()).json(&object);
-        Ok(self.send(builder, &self.connection_key, options).await?)
+        Ok(self
+            .send(builder, &self.connection_key, options, StatusCode::CREATED)
+            .await?)
     }
 
     #[napi(ts_return_type = "Promise<ListResponse<Type>>")]
@@ -67,13 +71,17 @@ impl UnifiedApi {
         options: Option<UnifiedOptions>,
     ) -> napi::Result<ListResponse> {
         let builder = self.client.client.get(self.url.clone()).query(&filter);
-        Ok(self.send(builder, &self.connection_key, options).await?)
+        Ok(self
+            .send(builder, &self.connection_key, options, StatusCode::OK)
+            .await?)
     }
 
     #[napi(ts_return_type = "Promise<Response<Type>>")]
     pub async fn get(&self, id: String, options: Option<UnifiedOptions>) -> napi::Result<Response> {
         let builder = self.client.client.get(format!("{}/{id}", self.url));
-        Ok(self.send(builder, &self.connection_key, options).await?)
+        Ok(self
+            .send(builder, &self.connection_key, options, StatusCode::OK)
+            .await?)
     }
 
     #[napi(ts_return_type = "Promise<Response<Type>>")]
@@ -88,13 +96,22 @@ impl UnifiedApi {
             .client
             .patch(format!("{}/{id}", self.url))
             .json(&object);
-        Ok(self.send(builder, &self.connection_key, options).await?)
+        Ok(self
+            .send(
+                builder,
+                &self.connection_key,
+                options,
+                StatusCode::NO_CONTENT,
+            )
+            .await?)
     }
 
     #[napi(ts_return_type = "Promise<Response<Count>>")]
     pub async fn count(&self, options: Option<UnifiedOptions>) -> napi::Result<Response> {
         let builder = self.client.client.get(format!("{}/count", self.url));
-        Ok(self.send(builder, &self.connection_key, options).await?)
+        Ok(self
+            .send(builder, &self.connection_key, options, StatusCode::OK)
+            .await?)
     }
 
     #[napi(ts_return_type = "Promise<Response<Type>>")]
@@ -109,7 +126,14 @@ impl UnifiedApi {
             .client
             .delete(format!("{}/{id}", self.url))
             .json(&delete_options);
-        Ok(self.send(builder, &self.connection_key, options).await?)
+        Ok(self
+            .send(
+                builder,
+                &self.connection_key,
+                options,
+                StatusCode::NO_CONTENT,
+            )
+            .await?)
     }
 
     async fn send<T: for<'a> Deserialize<'a>>(
@@ -117,6 +141,7 @@ impl UnifiedApi {
         mut builder: RequestBuilder,
         key: &str,
         options: Option<UnifiedOptions>,
+        status_code: StatusCode,
     ) -> anyhow::Result<T> {
         if let Some(options) = options {
             if options.response_passthrough.is_some_and(|p| p) {
@@ -175,6 +200,11 @@ impl UnifiedApi {
                         RESPONSE_HEADERS_FIELD_NAME.to_string(),
                         serde_json::Value::Object(headers),
                     );
+                    map.insert(
+                        STATUS_CODE_FIELD_NAME.to_string(),
+                        json!(status_code.as_u16()),
+                    );
+
                     return Ok(serde_json::from_value(serde_json::Value::Object(map)).unwrap());
                 }
                 _ => bail!("{{\"error\":\"Invalid response\"}}"),

@@ -15,10 +15,9 @@ macros = { path = "../macros" }
 napi = { version = "2.15", default-features = false, features = [
     "anyhow",
     "async",
-    "chrono_date",
     "serde-json",
 ] }
-napi-derive = "2.15"
+napi-derive = { version = "0.1.0", registry = "CLOUDSMITH" }
 rand = "0.8.5"
 reqwest = { version = "0.11.24", default-features = false, features = [
     "json",

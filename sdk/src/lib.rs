@@ -24,9 +24,10 @@ const DEFAULT_URL: &str = "https://api.integrationos.com/v1/unified";
 const PASSTHROUGH_HEADER: &str = "x-integrationos-enable-passthrough";
 const SECRET_HEADER: &str = "x-integrationos-secret";
 const CONNECTION_HEADER: &str = "x-integrationos-connection-key";
-const CUSTOM_HEADER: &str = "x-integrationos-passthrough";
-const CUSTOM_QUERY: &str = "integrationOSPassthrough";
+const CUSTOM_HEADER: &str = "x-integrationos-passthrough-forward";
+const CUSTOM_QUERY: &str = "passthroughForward";
 const RESPONSE_HEADERS_FIELD_NAME: &str = "headers";
+const STATUS_CODE_FIELD_NAME: &str = "status_code";
 
 #[derive(Debug, Clone)]
 struct Client {

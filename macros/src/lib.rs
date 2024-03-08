@@ -78,7 +78,7 @@ async fn get_common_models() -> Result<TokenStream> {
 
     for ce in enums {
         let napi_attr = format!(
-            "#[napi(string_enum, js_name = {})]",
+            "#[napi(string_enum = \"kebab-case\", js_name = {})]",
             ce.name.replace("::", "")
         );
 
@@ -100,7 +100,7 @@ async fn get_common_models() -> Result<TokenStream> {
 
     for ce in result.rows {
         let napi_attr = format!(
-            "#[napi(string_enum, js_name = {})]",
+            "#[napi(string_enum = \"kebab-case\", js_name = {})]",
             ce.name.replace("::", "")
         );
 

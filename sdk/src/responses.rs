@@ -11,6 +11,7 @@ pub(crate) struct Response {
     #[napi(ts_type = "object")]
     pub meta: serde_json::Value,
     pub headers: HashMap<String, String>,
+    pub status_code: u16,
 }
 
 #[napi(object)]
@@ -37,4 +38,5 @@ pub(crate) struct ListResponse {
     #[napi(ts_type = "object")]
     pub meta: serde_json::Value,
     pub headers: HashMap<String, String>,
+    pub status_code: u16,
 }
