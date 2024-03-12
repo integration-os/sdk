@@ -125,7 +125,7 @@ impl UnifiedApi {
             .client
             .client
             .delete(format!("{}/{id}", self.url))
-            .json(&delete_options);
+            .query(&delete_options);
         Ok(self
             .send(
                 builder,
