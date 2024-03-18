@@ -1,6 +1,6 @@
 {
   "name": "@integrationos/node-darwin-arm64",
-  "version": "3.6.4",
+  "version": "3.6.5",
   "os": [
     "darwin"
   ],
