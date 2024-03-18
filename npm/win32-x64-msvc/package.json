@@ -1,6 +1,6 @@
 {
   "name": "@integrationos/node-win32-x64-msvc",
-  "version": "3.6.6",
+  "version": "3.6.7",
   "os": [
     "win32"
   ],
