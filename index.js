@@ -295,16 +295,16 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { UnifiedApi, IntegrationOS, CreditType, Roles, AccountType, SkuValidation, Gender, TransactionMethod, Country, EmploymentType, TimeCycle, FinancialTrackingCategories, CreditNoteStatus, GlobalTaxType, JournalEntryStatus, PaymentTerm, IdentityProvider, EmploymentAndCandidateStatus, DayOfWeek, OrganizationalRole, AccountEngagementLevel, ReviewApprovalStatus, StakeholderType, CampaignType, ContactAddressType, AccountStatus, CampaignStatus, CustomerStatus, CustomerType, SocialPlatform, LeadLifecycleStatus, AccountingAccountType, ConversationStatus, MessageReadStatus, MessageContentType, MessageDeliveryStatus, CommunicationRole, ParticipantEngagementStatus, ReactionType, SupportTicketPriority, IssueLifecycleStatus, SupportQueryType, ItemEntityStatus, Currency, OrderStatus, DiscountType, CustomerEligibilityStatus, LifecycleStatus, ImageMimeType, FulfillmentStatus, PaymentMethod, FinancialTransactionStatus, OrderingCriteria, ChatType, AuditOpinionType, InventoryStorageType, ProductAvailabilityStatus, ItemCondition, ExpenseApprovalStatus, FinancialChargeType, ItemAvailabilityStatus, BillingStatus, FinancialAccountStatus, TransactionStatus, TransactionType, VisibilityScope, PaymentStatus, InvoiceAdjustmentType, DataType, EntityLifecycleStatus, TransactionChannel, FinancialDisputeStatus, ContentVisibility, EmailCategoryType, DeviceUsageType, UniversalIdentifierType, EntityCategory, AccessControlModel, ParticipantType, PriorityLevel, TaskStatus, GenderIdentity, UserStatus, CommunicationMethod, PromotionType, FinancialTransactionType, MimeType } = nativeBinding
+const { UnifiedApi, IntegrationOS, CreditType, TransactionMethod, SkuValidation, AccountType, Gender, Roles, Country, EmploymentType, TimeCycle, FinancialTrackingCategories, CreditNoteStatus, GlobalTaxType, JournalEntryStatus, PaymentTerm, IdentityProvider, EmploymentAndCandidateStatus, DayOfWeek, OrganizationalRole, AccountEngagementLevel, ReviewApprovalStatus, StakeholderType, CampaignType, ContactAddressType, AccountStatus, CampaignStatus, CustomerStatus, CustomerType, SocialPlatform, LeadLifecycleStatus, AccountingAccountType, ConversationStatus, MessageReadStatus, MessageContentType, MessageDeliveryStatus, CommunicationRole, ParticipantEngagementStatus, ReactionType, SupportTicketPriority, IssueLifecycleStatus, SupportQueryType, ItemEntityStatus, Currency, OrderStatus, DiscountType, CustomerEligibilityStatus, LifecycleStatus, ImageMimeType, FulfillmentStatus, PaymentMethod, FinancialTransactionStatus, OrderingCriteria, ChatType, AuditOpinionType, InventoryStorageType, ProductAvailabilityStatus, ItemCondition, ExpenseApprovalStatus, FinancialChargeType, ItemAvailabilityStatus, BillingStatus, FinancialAccountStatus, TransactionStatus, TransactionType, VisibilityScope, PaymentStatus, InvoiceAdjustmentType, DataType, EntityLifecycleStatus, TransactionChannel, FinancialDisputeStatus, ContentVisibility, EmailCategoryType, DeviceUsageType, UniversalIdentifierType, EntityCategory, AccessControlModel, ParticipantType, PriorityLevel, TaskStatus, GenderIdentity, UserStatus, CommunicationMethod, PromotionType, FinancialTransactionType, MimeType } = nativeBinding
 
 module.exports.UnifiedApi = UnifiedApi
 module.exports.IntegrationOS = IntegrationOS
 module.exports.CreditType = CreditType
-module.exports.Roles = Roles
-module.exports.AccountType = AccountType
-module.exports.SkuValidation = SkuValidation
-module.exports.Gender = Gender
 module.exports.TransactionMethod = TransactionMethod
+module.exports.SkuValidation = SkuValidation
+module.exports.AccountType = AccountType
+module.exports.Gender = Gender
+module.exports.Roles = Roles
 module.exports.Country = Country
 module.exports.EmploymentType = EmploymentType
 module.exports.TimeCycle = TimeCycle
