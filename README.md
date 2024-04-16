@@ -4,13 +4,13 @@ The IntegrationOS library for Node.js provides convenient access to the Integrat
 
 ## Install
 
-With npm:
+Using npm:
 
 ```jsx
 npm i @integrationos/node
 ```
 
-With yarn:
+Using yarn:
 
 ```jsx
 yarn add @integrationos/node
