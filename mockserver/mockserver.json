@@ -1,0 +1,13 @@
+{
+    "httpRequest": {
+        "path": "//customers",
+        "method": "GET"
+    },
+    "httpResponse": {
+        "body": "{\"unified\":[{\"id\":\"112\",\"fullName\":\"AlvinRitchie\",\"firstName\":\"Bertrand\",\"lastName\":\"Hand\",\"email\":\"johnny.bartoletti@yahoo.com\",\"phoneNumber\":\"571-357-6503x118\",\"company\":\"ConnandSons\",\"defaultAddress\":{\"subdivisionCode\":\"US-NY\",\"street\":\"123ElmStreet\",\"city\":\"Metropolis\",\"postalCode\":\"12345\"},\"createdAt\":\"2024-02-21T22:09:38-08:00\",\"updatedAt\":\"2024-02-21T22:09:38-08:00\",\"modifyToken\":\"0\"}],\"pagination\":{\"nextCursor\":\"\",\"previousCursor\":\"\",\"pageSize\":100},\"meta\":{\"timestamp\":1713966191065,\"latency\":1434,\"platformRateLimitRemaining\":0,\"rateLimitRemaining\":0,\"cache\":{\"hit\":false,\"ttl\":0,\"key\":\"\"},\"transactionKey\":\"tx::F8k7K3d5-SA::4qM0bcRjSUu06hfRDyfPkQ\",\"platform\":\"quickbooks\",\"platformVersion\":\"v3\",\"action\":\"getMany\",\"commonModel\":\"Customers\",\"commonModelVersion\":\"v1\",\"connectionKey\":\"test::quickbooks::admin-system\",\"hash\":\"daaddad4cd4e8a16a5a3d5c7d5026413ba9090e0185b954d48fb519c14ef931e\"}}",
+        "statusCode": 200,
+        "headers": {
+            "Content-Type": "application/json"
+        }
+    }
+}

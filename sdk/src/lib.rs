@@ -50,11 +50,7 @@ impl IntegrationOS {
                 .as_ref()
                 .map(|o| {
                     let url = o.server_url.as_str();
-                    if url.ends_with("/") {
-                        &url[..url.len() - 1]
-                    } else {
-                        url
-                    }
+                    url.strip_suffix('/').unwrap_or(url)
                 })
                 .unwrap_or(DEFAULT_URL),
         )
