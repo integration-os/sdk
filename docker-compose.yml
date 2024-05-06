@@ -4,6 +4,7 @@ services:
   mockserver:
     restart: always
     image: mockserver/mockserver:latest
+    platform: linux/amd64
     environment:
       MOCKSERVER_INITIALIZATION_JSON_PATH: /mockserver/mockserver.json
     volumes:
