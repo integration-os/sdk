@@ -32,6 +32,10 @@ const response = await integrate
 console.log(response);
 ```
 
+## Testing
+
+Configure the `.env` file based on the `.env.sample` provided with an IntegrationOS Secret Key, Connection Key and Model to test.
+
 ## Full Documentation
 
 Please refer to the official IntegrationOS [Documentation](https://docs.integrationos.com/docs/setup) and [API Reference](https://docs.integrationos.com/reference) for more information and Node.js usage examples.

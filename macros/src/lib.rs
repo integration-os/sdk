@@ -21,7 +21,7 @@ pub fn make_common_models(_item: TokenStream) -> TokenStream {
     rt.block_on(async { get_common_models().await }).unwrap()
 }
 
-const ENDPOINT: &str = "https://development-api.integrationos.com/v1/public/e7262bf18c81bc1ff7f726e6d1a6da59f6e77dde0d63d9b60c041af57be8c197/";
+const ENDPOINT: &str = "https://development-api.integrationos.com/v1/public/sdk/";
 const LIMIT: u64 = 500;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

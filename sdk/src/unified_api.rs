@@ -205,7 +205,7 @@ impl UnifiedApi {
                         json!(status_code.as_u16()),
                     );
 
-                    return Ok(serde_json::from_value(serde_json::Value::Object(map)).unwrap());
+                    Ok(serde_json::from_value(serde_json::Value::Object(map)).unwrap())
                 }
                 _ => bail!("{{\"error\":\"Invalid response\"}}"),
             }
