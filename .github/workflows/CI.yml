@@ -232,7 +232,7 @@ jobs:
         uses: docker/setup-qemu-action@v3
         with:
           platforms: arm64
-      - run: docker run -e INTEGRATIONOS_SECRET_KEY=${INTEGRATIONOS_SECRET_KEY} -e INTEGRATIONOS_CONNECTION_KEY=${INTEGRATIONOS_CONNECTION_KEY} -e INTEGRATIONOS_TESTING_MODEL=${INTEGRATIONOS_TESTING_MODEL} --rm --privileged multiarch/qemu-user-static --reset -p yes
+      - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
       - name: Setup and run tests
         uses: addnab/docker-run-action@v3
         with:
