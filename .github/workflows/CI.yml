@@ -276,3 +276,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          INTEGRATIONOS_SECRET_KEY: ${{ secrets.INTEGRATIONOS_SECRET_KEY }}
+          INTEGRATIONOS_CONNECTION_KEY: ${{ secrets.INTEGRATIONOS_CONNECTION_KEY }}
+          INTEGRATIONOS_TESTING_MODEL: ${{ secrets.INTEGRATIONOS_TESTING_MODEL }}
