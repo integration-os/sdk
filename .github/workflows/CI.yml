@@ -237,7 +237,7 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: node:${{ matrix.node }}-slim
-          options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build -e INTEGRATIONOS_SECRET_KEY=${INTEGRATIONOS_SECRET_KEY} -e INTEGRATIONOS_CONNECTION_KEY=${INTEGRATIONOS_CONNECTION_KEY} -e INTEGRATIONOS_TESTING_MODEL=${INTEGRATIONOS_TESTING_MODEL}"
+          options: --platform linux/arm64 -v ${{ github.workspace }}:/build -w /build -e INTEGRATIONOS_SECRET_KEY=${INTEGRATIONOS_SECRET_KEY} -e INTEGRATIONOS_CONNECTION_KEY=${INTEGRATIONOS_CONNECTION_KEY} -e INTEGRATIONOS_TESTING_MODEL=${INTEGRATIONOS_TESTING_MODEL}
           run: |
             set -e
             yarn test
