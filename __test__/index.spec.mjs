@@ -1,13 +1,28 @@
+import('dotenv/config');
 import test from 'ava'
 
 import { IntegrationOS } from '../index.js'
 
-test('Fetch a Customer', async (t) => {
-  const integrate = new IntegrationOS("sk_test_1", {
-    serverUrl: "http://localhost:1080"
+test.before(t => {
+  const requiredEnvVars = [
+    'INTEGRATIONOS_SECRET_KEY',
+    'INTEGRATIONOS_CONNECTION_KEY',
+    'INTEGRATIONOS_TESTING_MODEL'
+  ];
+
+  requiredEnvVars.forEach(envVar => {
+    if (!process.env[envVar]) {
+      t.fail(`${envVar} is not set`);
+    }
   });
+});
 
-  let response = await integrate.customers("test::quickbooks::acme").list();
+test('List model entities', async (t) => {
+  const integrate = new IntegrationOS(process.env.INTEGRATIONOS_SECRET_KEY);
 
-  t.truthy(response.unified.length)
+  let response = await integrate[process.env.INTEGRATIONOS_TESTING_MODEL](process.env.INTEGRATIONOS_CONNECTION_KEY).list();
+
+  t.truthy(response.unified)
+  t.truthy(response.meta)
+  t.truthy(response.headers)
 })

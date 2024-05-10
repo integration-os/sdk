@@ -32,7 +32,7 @@
     "build:mac": "napi build --target aarch64-apple-darwin --platform --release --cargo-cwd sdk npm/darwin-arm64 && napi build --target x86_64-apple-darwin --platform --release --cargo-cwd sdk npm/darwin-x64",
     "build": "napi build --platform --release --cargo-cwd sdk",
     "build:debug": "napi build --platform --cargo-cwd sdk",
-    "test": "docker-compose up -d && sleep 2 && ava && docker-compose down",
+    "test": "ava",
     "version": "napi version",
     "postbuild-all": "npm run postbuild",
     "postbuild:debug": "npm run postbuild",
@@ -41,5 +41,8 @@
     "postbuild": "sed -i'' -e 's/<Type>//g' index.js && sed -i'' -e '/^export type*/d' index.d.ts",
     "prepublishOnly": "napi prepublish -t npm"
   },
-  "packageManager": "yarn@4.1.0"
+  "packageManager": "yarn@4.1.0",
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
 }
