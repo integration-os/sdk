@@ -163,6 +163,10 @@ jobs:
         shell: bash
       - name: Test bindings
         run: yarn test
+    env:
+      INTEGRATIONOS_SECRET_KEY: ${{ secrets.INTEGRATIONOS_SECRET_KEY }}
+      INTEGRATIONOS_CONNECTION_KEY: ${{ secrets.INTEGRATIONOS_CONNECTION_KEY }}
+      INTEGRATIONOS_TESTING_MODEL: ${{ secrets.INTEGRATIONOS_TESTING_MODEL }}
   test-linux-x64-gnu-binding:
     name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
     needs:
@@ -193,6 +197,10 @@ jobs:
         shell: bash
       - name: Test bindings
         run: docker run --rm -v $(pwd):/build -w /build node:${{ matrix.node }}-slim yarn test
+    env:
+      INTEGRATIONOS_SECRET_KEY: ${{ secrets.INTEGRATIONOS_SECRET_KEY }}
+      INTEGRATIONOS_CONNECTION_KEY: ${{ secrets.INTEGRATIONOS_CONNECTION_KEY }}
+      INTEGRATIONOS_TESTING_MODEL: ${{ secrets.INTEGRATIONOS_TESTING_MODEL }}
 
   test-linux-aarch64-gnu-binding:
     name: Test bindings on aarch64-unknown-linux-gnu - node@${{ matrix.node }}
@@ -234,7 +242,10 @@ jobs:
             set -e
             yarn test
             ls -la
-
+    env:
+      INTEGRATIONOS_SECRET_KEY: ${{ secrets.INTEGRATIONOS_SECRET_KEY }}
+      INTEGRATIONOS_CONNECTION_KEY: ${{ secrets.INTEGRATIONOS_CONNECTION_KEY }}
+      INTEGRATIONOS_TESTING_MODEL: ${{ secrets.INTEGRATIONOS_TESTING_MODEL }}
   publish:
     name: Publish
     runs-on: ubuntu-latest
@@ -276,6 +287,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          INTEGRATIONOS_SECRET_KEY: ${{ secrets.INTEGRATIONOS_SECRET_KEY }}
-          INTEGRATIONOS_CONNECTION_KEY: ${{ secrets.INTEGRATIONOS_CONNECTION_KEY }}
-          INTEGRATIONOS_TESTING_MODEL: ${{ secrets.INTEGRATIONOS_TESTING_MODEL }}
