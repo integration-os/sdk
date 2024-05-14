@@ -11,7 +11,7 @@ permissions:
     branches:
       - main
     tags:
-      - "[0-9]+.[0-9]+.[0-9]$"
+      - "^v[0-9]+.[0-9]+.[0-9]$"
     paths-ignore:
       - "**/*.md"
       - LICENSE
