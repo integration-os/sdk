@@ -27,10 +27,10 @@
   },
   "scripts": {
     "artifacts": "napi artifacts",
-    "build-all": "napi build --platform --release --cargo-cwd sdk && napi build --target aarch64-apple-darwin --platform --release --cargo-cwd sdk npm/darwin-arm64 && napi build --target x86_64-apple-darwin --platform --release --cargo-cwd sdk npm/darwin-x64 && napi build --target x86_64-unknown-linux-gnu --platform --release --cargo-cwd sdk npm/linux-x64-gnu",
+    "build": "napi build --platform --release --cargo-cwd sdk && napi build --target aarch64-apple-darwin --platform --release --cargo-cwd sdk npm/darwin-arm64 && napi build --target x86_64-apple-darwin --platform --release --cargo-cwd sdk npm/darwin-x64 && napi build --target x86_64-unknown-linux-gnu --platform --release --cargo-cwd sdk npm/linux-x64-gnu",
     "build:linux": "napi build --target x86_64-unknown-linux-gnu --platform --release --cargo-cwd sdk npm/linux-x64-gnu",
     "build:mac": "napi build --target aarch64-apple-darwin --platform --release --cargo-cwd sdk npm/darwin-arm64 && napi build --target x86_64-apple-darwin --platform --release --cargo-cwd sdk npm/darwin-x64",
-    "build": "napi build --platform --release --cargo-cwd sdk",
+    "build-platform": "napi build --platform --release --cargo-cwd sdk",
     "build:debug": "napi build --platform --cargo-cwd sdk",
     "test": "ava",
     "version": "napi version",
