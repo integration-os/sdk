@@ -28,6 +28,11 @@ function isMusl() {
   }
 }
 
+console.log("Platform: ", platform)
+console.log("Arch: ", arch)
+console.log("Is musl: ", isMusl())
+console.log("Full node native name: ", `node.${platform}-${arch}.node`)
+
 switch (platform) {
   case 'android':
     switch (arch) {
@@ -116,7 +121,7 @@ switch (platform) {
         nativeBinding = require('@integrationos/node-darwin-universal')
       }
       break
-    } catch {}
+    } catch { }
     switch (arch) {
       case 'x64':
         localFileExisted = existsSync(join(__dirname, 'node.darwin-x64.node'))
@@ -167,27 +172,35 @@ switch (platform) {
     switch (arch) {
       case 'x64':
         if (isMusl()) {
+          console.log("Is musl")
           localFileExisted = existsSync(
             join(__dirname, 'node.linux-x64-musl.node')
           )
+          console.log("Local file existed: ", localFileExisted)
           try {
             if (localFileExisted) {
+              console.log("Loading local file")
               nativeBinding = require('./node.linux-x64-musl.node')
             } else {
               nativeBinding = require('@integrationos/node-linux-x64-musl')
+              console.log("Binding: ", nativeBinding)
             }
           } catch (e) {
             loadError = e
           }
         } else {
+          console.log("Is gnu")
           localFileExisted = existsSync(
             join(__dirname, 'node.linux-x64-gnu.node')
           )
+          console.log("Local file existed: ", localFileExisted)
           try {
             if (localFileExisted) {
+              console.log("Loading local file")
               nativeBinding = require('./node.linux-x64-gnu.node')
             } else {
               nativeBinding = require('@integrationos/node-linux-x64-gnu')
+              console.log("Binding: ", nativeBinding)
             }
           } catch (e) {
             loadError = e
@@ -310,26 +323,26 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { UnifiedApi, IntegrationOS, Status, ChannelAvailability, AccountType, Format, AppliesTo, TransactionMethod, SkuValidation, MinimumRequirements, CustomerSelection, TargetType, CreditType, TargetSelection, Gender, Roles, AllocationMethod, CustomerEligibility, Country, EmploymentType, TimeCycle, FinancialTrackingCategories, CreditNoteStatus, GlobalTaxType, JournalEntryStatus, PaymentTerm, IdentityProvider, EmploymentAndCandidateStatus, DayOfWeek, OrganizationalRole, AccountEngagementLevel, ReviewApprovalStatus, StakeholderType, CampaignType, ContactAddressType, AccountStatus, CampaignStatus, CustomerStatus, CustomerType, SocialPlatform, LeadLifecycleStatus, AccountingAccountType, ConversationStatus, MessageReadStatus, MessageContentType, MessageDeliveryStatus, CommunicationRole, ParticipantEngagementStatus, ReactionType, SupportTicketPriority, IssueLifecycleStatus, SupportQueryType, ItemEntityStatus, Currency, OrderStatus, DiscountType, CustomerEligibilityStatus, LifecycleStatus, ImageMimeType, FulfillmentStatus, PaymentMethod, FinancialTransactionStatus, OrderingCriteria, ChatType, AuditOpinionType, InventoryStorageType, ProductAvailabilityStatus, ItemCondition, ExpenseApprovalStatus, FinancialChargeType, ItemAvailabilityStatus, BillingStatus, FinancialAccountStatus, TransactionStatus, TransactionType, VisibilityScope, PaymentStatus, InvoiceAdjustmentType, DataType, EntityLifecycleStatus, TransactionChannel, FinancialDisputeStatus, ContentVisibility, EmailCategoryType, DeviceUsageType, UniversalIdentifierType, EntityCategory, AccessControlModel, ParticipantType, PriorityLevel, TaskStatus, GenderIdentity, UserStatus, CommunicationMethod, PromotionType, FinancialTransactionType, MimeType, PrerequisiteRangeType } = nativeBinding
+const { UnifiedApi, IntegrationOS, AppliesTo, ChannelAvailability, CustomerSelection, TransactionMethod, AllocationMethod, TargetType, CustomerEligibility, TargetSelection, Status, CreditType, Gender, AccountType, SkuValidation, Roles, Format, MinimumRequirements, Country, EmploymentType, TimeCycle, FinancialTrackingCategories, CreditNoteStatus, GlobalTaxType, JournalEntryStatus, PaymentTerm, IdentityProvider, EmploymentAndCandidateStatus, DayOfWeek, OrganizationalRole, AccountEngagementLevel, ReviewApprovalStatus, StakeholderType, CampaignType, ContactAddressType, AccountStatus, CampaignStatus, CustomerStatus, CustomerType, SocialPlatform, LeadLifecycleStatus, AccountingAccountType, ConversationStatus, MessageReadStatus, MessageContentType, MessageDeliveryStatus, CommunicationRole, ParticipantEngagementStatus, ReactionType, SupportTicketPriority, IssueLifecycleStatus, SupportQueryType, ItemEntityStatus, Currency, OrderStatus, DiscountType, CustomerEligibilityStatus, LifecycleStatus, ImageMimeType, FulfillmentStatus, PaymentMethod, FinancialTransactionStatus, OrderingCriteria, ChatType, AuditOpinionType, InventoryStorageType, ProductAvailabilityStatus, ItemCondition, ExpenseApprovalStatus, FinancialChargeType, ItemAvailabilityStatus, BillingStatus, FinancialAccountStatus, TransactionStatus, TransactionType, VisibilityScope, PaymentStatus, InvoiceAdjustmentType, DataType, EntityLifecycleStatus, TransactionChannel, FinancialDisputeStatus, ContentVisibility, EmailCategoryType, DeviceUsageType, UniversalIdentifierType, EntityCategory, AccessControlModel, ParticipantType, PriorityLevel, TaskStatus, GenderIdentity, UserStatus, CommunicationMethod, PromotionType, FinancialTransactionType, MimeType, PrerequisiteRangeType } = nativeBinding
 
 module.exports.UnifiedApi = UnifiedApi
 module.exports.IntegrationOS = IntegrationOS
-module.exports.Status = Status
-module.exports.ChannelAvailability = ChannelAvailability
-module.exports.AccountType = AccountType
-module.exports.Format = Format
 module.exports.AppliesTo = AppliesTo
-module.exports.TransactionMethod = TransactionMethod
-module.exports.SkuValidation = SkuValidation
-module.exports.MinimumRequirements = MinimumRequirements
+module.exports.ChannelAvailability = ChannelAvailability
 module.exports.CustomerSelection = CustomerSelection
-module.exports.TargetType = TargetType
-module.exports.CreditType = CreditType
-module.exports.TargetSelection = TargetSelection
-module.exports.Gender = Gender
-module.exports.Roles = Roles
+module.exports.TransactionMethod = TransactionMethod
 module.exports.AllocationMethod = AllocationMethod
+module.exports.TargetType = TargetType
 module.exports.CustomerEligibility = CustomerEligibility
+module.exports.TargetSelection = TargetSelection
+module.exports.Status = Status
+module.exports.CreditType = CreditType
+module.exports.Gender = Gender
+module.exports.AccountType = AccountType
+module.exports.SkuValidation = SkuValidation
+module.exports.Roles = Roles
+module.exports.Format = Format
+module.exports.MinimumRequirements = MinimumRequirements
 module.exports.Country = Country
 module.exports.EmploymentType = EmploymentType
 module.exports.TimeCycle = TimeCycle
