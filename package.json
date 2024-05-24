@@ -1,6 +1,6 @@
 {
   "name": "@integrationos/node",
-  "version": "3.7.6",
+  "version": "3.7.7",
   "main": "index.js",
   "types": "index.d.ts",
   "napi": {
@@ -27,10 +27,10 @@
   },
   "scripts": {
     "artifacts": "napi artifacts",
-    "build": "napi build --platform --release --cargo-cwd sdk && napi build --target aarch64-apple-darwin --platform --release --cargo-cwd sdk npm/darwin-arm64 && napi build --target x86_64-apple-darwin --platform --release --cargo-cwd sdk npm/darwin-x64 && napi build --target x86_64-unknown-linux-gnu --platform --release --cargo-cwd sdk npm/linux-x64-gnu",
+    "build-all": "napi build --platform --release --cargo-cwd sdk && napi build --target aarch64-apple-darwin --platform --release --cargo-cwd sdk npm/darwin-arm64 && napi build --target x86_64-apple-darwin --platform --release --cargo-cwd sdk npm/darwin-x64 && napi build --target x86_64-unknown-linux-gnu --platform --release --cargo-cwd sdk npm/linux-x64-gnu",
     "build:linux": "napi build --target x86_64-unknown-linux-gnu --platform --release --cargo-cwd sdk npm/linux-x64-gnu",
     "build:mac": "napi build --target aarch64-apple-darwin --platform --release --cargo-cwd sdk npm/darwin-arm64 && napi build --target x86_64-apple-darwin --platform --release --cargo-cwd sdk npm/darwin-x64",
-    "build-platform": "napi build --platform --release --cargo-cwd sdk",
+    "build": "napi build --platform --release --cargo-cwd sdk",
     "build:debug": "napi build --platform --cargo-cwd sdk",
     "test": "ava",
     "version": "napi version",
