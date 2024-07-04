@@ -1,6 +1,6 @@
 {
   "name": "@integrationos/node-darwin-x64",
-  "version": "3.7.15",
+  "version": "3.7.16",
   "os": [
     "darwin"
   ],
