@@ -310,25 +310,25 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { UnifiedApi, IntegrationOS, Format, AppliesTo, AllocationMethod, MinimumRequirements, TransactionMethod, ChannelAvailability, Roles, CustomerSelection, SkuValidation, AccountType, Gender, CustomerEligibility, Status, TargetSelection, TargetType, Country, GlobalTaxType, JournalEntryStatus, IdentityProvider, DayOfWeek, AccountEngagementLevel, ReviewApprovalStatus, StakeholderType, AccountStatus, CampaignStatus, CustomerType, AccountingAccountType, MessageReadStatus, MessageContentType, MessageDeliveryStatus, ReactionType, SupportTicketPriority, IssueLifecycleStatus, SupportQueryType, OrderStatus, DiscountType, ImageMimeType, FulfillmentStatus, OrderingCriteria, ChatType, ProductAvailabilityStatus, ExpenseApprovalStatus, FinancialChargeType, ItemAvailabilityStatus, BillingStatus, FinancialAccountStatus, TransactionStatus, InvoiceAdjustmentType, DataType, EmploymentType, TimeCycle, FinancialTrackingCategories, CreditNoteStatus, PaymentTerm, EmploymentAndCandidateStatus, OrganizationalRole, CampaignType, ContactAddressType, CustomerStatus, SocialPlatform, LeadLifecycleStatus, ConversationStatus, CommunicationRole, ParticipantEngagementStatus, ItemEntityStatus, Currency, CustomerEligibilityStatus, LifecycleStatus, PaymentMethod, FinancialTransactionStatus, AuditOpinionType, InventoryStorageType, ItemCondition, TransactionType, VisibilityScope, PaymentStatus, EntityLifecycleStatus, TransactionChannel, FinancialDisputeStatus, ContentVisibility, DeviceUsageType, EntityCategory, GenderIdentity, CommunicationMethod, FinancialTransactionType, EmailCategoryType, UniversalIdentifierType, AccessControlModel, ParticipantType, PriorityLevel, TaskStatus, UserStatus, PromotionType, MimeType, PrerequisiteRangeType, TaxType, ModifierType, CardType, PrepaidType, EntryMethod, CvvStatus, AvcStatus, CreditType } = nativeBinding
+const { UnifiedApi, IntegrationOS, TargetSelection, CustomerEligibility, AllocationMethod, Format, ChannelAvailability, TargetType, AppliesTo, TransactionMethod, MinimumRequirements, Gender, Status, Roles, SkuValidation, AccountType, CustomerSelection, Country, GlobalTaxType, JournalEntryStatus, IdentityProvider, DayOfWeek, AccountEngagementLevel, ReviewApprovalStatus, StakeholderType, AccountStatus, CampaignStatus, CustomerType, AccountingAccountType, MessageReadStatus, MessageContentType, MessageDeliveryStatus, ReactionType, SupportTicketPriority, IssueLifecycleStatus, SupportQueryType, OrderStatus, DiscountType, ImageMimeType, FulfillmentStatus, OrderingCriteria, ChatType, ProductAvailabilityStatus, ExpenseApprovalStatus, FinancialChargeType, ItemAvailabilityStatus, BillingStatus, FinancialAccountStatus, TransactionStatus, InvoiceAdjustmentType, DataType, EmploymentType, TimeCycle, FinancialTrackingCategories, CreditNoteStatus, PaymentTerm, EmploymentAndCandidateStatus, OrganizationalRole, CampaignType, ContactAddressType, CustomerStatus, SocialPlatform, LeadLifecycleStatus, ConversationStatus, CommunicationRole, ParticipantEngagementStatus, ItemEntityStatus, Currency, CustomerEligibilityStatus, LifecycleStatus, PaymentMethod, FinancialTransactionStatus, AuditOpinionType, InventoryStorageType, ItemCondition, TransactionType, VisibilityScope, PaymentStatus, EntityLifecycleStatus, TransactionChannel, FinancialDisputeStatus, ContentVisibility, DeviceUsageType, EntityCategory, GenderIdentity, CommunicationMethod, FinancialTransactionType, EmailCategoryType, UniversalIdentifierType, AccessControlModel, ParticipantType, PriorityLevel, TaskStatus, UserStatus, PromotionType, MimeType, PrerequisiteRangeType, TaxType, ModifierType, CardType, PrepaidType, EntryMethod, CvvStatus, AvcStatus, CreditType } = nativeBinding
 
 module.exports.UnifiedApi = UnifiedApi
 module.exports.IntegrationOS = IntegrationOS
-module.exports.Format = Format
-module.exports.AppliesTo = AppliesTo
+module.exports.TargetSelection = TargetSelection
+module.exports.CustomerEligibility = CustomerEligibility
 module.exports.AllocationMethod = AllocationMethod
-module.exports.MinimumRequirements = MinimumRequirements
-module.exports.TransactionMethod = TransactionMethod
+module.exports.Format = Format
 module.exports.ChannelAvailability = ChannelAvailability
+module.exports.TargetType = TargetType
+module.exports.AppliesTo = AppliesTo
+module.exports.TransactionMethod = TransactionMethod
+module.exports.MinimumRequirements = MinimumRequirements
+module.exports.Gender = Gender
+module.exports.Status = Status
 module.exports.Roles = Roles
-module.exports.CustomerSelection = CustomerSelection
 module.exports.SkuValidation = SkuValidation
 module.exports.AccountType = AccountType
-module.exports.Gender = Gender
-module.exports.CustomerEligibility = CustomerEligibility
-module.exports.Status = Status
-module.exports.TargetSelection = TargetSelection
-module.exports.TargetType = TargetType
+module.exports.CustomerSelection = CustomerSelection
 module.exports.Country = Country
 module.exports.GlobalTaxType = GlobalTaxType
 module.exports.JournalEntryStatus = JournalEntryStatus

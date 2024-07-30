@@ -1,18 +1,16 @@
 extern crate proc_macro;
 
-use std::collections::HashSet;
-
 use anyhow::{bail, Result};
 use integrationos_domain::{
-    algebra::extension::StringExt,
     api_model_config::Lang,
     common_model::{CommonEnum, CommonModel, DataType},
     prefix::IdPrefix,
-    Id,
+    Id, StringExt,
 };
 use proc_macro::TokenStream;
 use quote::quote;
 use serde::{Deserialize, Serialize};
+use std::collections::HashSet;
 use syn::{parse_macro_input, ImplItem, ImplItemFn, ItemImpl};
 
 #[proc_macro]
@@ -77,13 +75,7 @@ async fn get_common_models() -> Result<TokenStream> {
     }
 
     for ce in enums {
-        let napi_attr = format!(
-            "#[napi(string_enum = \"kebab-case\", js_name = {})]",
-            ce.name.replace("::", "")
-        );
-
-        let rust = ce.as_rust_type();
-        output.push_str(&napi_attr);
+        let rust = ce.as_rust_schema();
         output.push_str(&rust);
     }
 
@@ -99,13 +91,7 @@ async fn get_common_models() -> Result<TokenStream> {
     }
 
     for ce in result.rows {
-        let napi_attr = format!(
-            "#[napi(string_enum = \"kebab-case\", js_name = {})]",
-            ce.name.replace("::", "")
-        );
-
-        let rust = ce.as_rust_type();
-        output.push_str(&napi_attr);
+        let rust = ce.as_rust_schema();
         output.push_str(&rust);
     }
 
