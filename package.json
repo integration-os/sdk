@@ -1,6 +1,6 @@
 {
   "name": "@integrationos/node",
-  "version": "3.8.7",
+  "version": "3.8.8",
   "main": "index.js",
   "types": "index.d.ts",
   "napi": {
