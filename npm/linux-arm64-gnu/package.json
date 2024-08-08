@@ -1,6 +1,6 @@
 {
   "name": "@integrationos/node-linux-arm64-gnu",
-  "version": "3.8.7",
+  "version": "3.8.8",
   "os": [
     "linux"
   ],
